@@ -1,0 +1,127 @@
+﻿Hex,Decimal,Character(s),,Description,Part,Length,Charset
+\x20,32,-SPACE-,,,,,ASCII
+\x21,33,!,,,,,ASCII
+\x23,35,#,,,,,ASCII
+\x24,36,$,,,,,ASCII
+\x28,40,(,,,,,ASCII
+\x29,41,),,,,,ASCII
+\x2a,42,*,,,,,ASCII
+\x2b,43,+,,,,,ASCII
+\x2d,45,-,,,,,ASCII
+\x2e,46,.,,,,,ASCII
+\x2f,47,/,,,,,ASCII
+\x30,48,0,,,,,ASCII
+\x31,49,1,,,,,ASCII
+\x32,50,2,,,,,ASCII
+\x33,51,3,,,,,ASCII
+\x34,52,4,,,,,ASCII
+\x35,53,5,,,,,ASCII
+\x36,54,6,,,,,ASCII
+\x37,55,7,,,,,ASCII
+\x38,56,8,,,,,ASCII
+\x39,57,9,,,,,ASCII
+\x3a,58,:,,,,,ASCII
+\x3b,59,;,,,,,ASCII
+\x3c,60,<,,,,,ASCII
+\x3e,62,>,,,,,ASCII
+\x3f,63,?,,,,,ASCII
+\x40,64,@,,,,,ASCII
+\x41,65,A,,,,,ASCII
+\x42,66,B,,,,,ASCII
+\x43,67,C,,,,,ASCII
+\x44,68,D,,,,,ASCII
+\x45,69,E,,,,,ASCII
+\x46,70,F,,,,,ASCII
+\x47,71,G,,,,,ASCII
+\x48,72,H,,,,,ASCII
+\x49,73,I,,,,,ASCII
+\x4a,74,J,,,,,ASCII
+\x4b,75,K,,,,,ASCII
+\x4c,76,L,,,,,ASCII
+\x4d,77,M,,,,,ASCII
+\x4e,78,N,,,,,ASCII
+\x4f,79,O,,,,,ASCII
+\x50,80,P,,,,,ASCII
+\x51,81,Q,,,,,ASCII
+\x52,82,R,,,,,ASCII
+\x53,83,S,,,,,ASCII
+\x54,84,T,,,,,ASCII
+\x55,85,U,,,,,ASCII
+\x56,86,V,,,,,ASCII
+\x57,87,W,,,,,ASCII
+\x58,88,X,,,,,ASCII
+\x59,89,Y,,,,,ASCII
+\x5a,90,Z,,,,,ASCII
+\x5e,94,^,,,,,ASCII
+\x5f,95,_,,,,,ASCII
+\x61,97,a,,,,,ASCII
+\x62,98,b,,,,,ASCII
+\x63,99,c,,,,,ASCII
+\x64,100,d,,,,,ASCII
+\x65,101,e,,,,,ASCII
+\x66,102,f,,,,,ASCII
+\x67,103,g,,,,,ASCII
+\x68,104,h,,,,,ASCII
+\x69,105,i,,,,,ASCII
+\x6a,106,j,,,,,ASCII
+\x6b,107,k,,,,,ASCII
+\x6c,108,l,,,,,ASCII
+\x6d,109,m,,,,,ASCII
+\x6e,110,n,,,,,ASCII
+\x6f,111,o,,,,,ASCII
+\x70,112,p,,,,,ASCII
+\x71,113,q,,,,,ASCII
+\x72,114,r,,,,,ASCII
+\x73,115,s,,,,,ASCII
+\x74,116,t,,,,,ASCII
+\x75,117,u,,,,,ASCII
+\x76,118,v,,,,,ASCII
+\x77,119,w,,,,,ASCII
+\x78,120,x,,,,,ASCII
+\x79,121,y,,,,,ASCII
+\x7a,122,z,,,,,ASCII
+\x80,128,█,,Slider Full,,,Uniden
+\x81,129,↑,,Scan Up,,,Uniden
+\x82,130,↓,,Scan Down,,,Uniden
+\x85,133,KEY,┐,Keypad Lock,1,2,Uniden
+\x86,134,KEY,┘,Keypad Lock,2,2,Uniden
+\x87,135,CC,┐,Close Call Priority,1,2,Uniden
+\x88,136,CC,┘,Close Call Priority,2,2,Uniden
+\x8b,139,F,,Function,,,Uniden
+\x8c,140,P,,Priority,,,Uniden
+\x8d,141,H,,HOLD,,,Uniden
+\x8e,142,O,,HOLD,,,Uniden
+\x8f,143,L,,HOLD,,,Uniden
+\x90,144,D,,HOLD,,,Uniden
+\x91,145,+,,PRI+,,,Uniden
+\x92,146,C,,Close Call Bank,,,Uniden
+\x93,147,T,,TL/O,,,Uniden
+\x94,148,L,,TL/O,,,Uniden
+\x95,149,L,,L/O,,,Uniden
+\x96,150,/,,TL/O + L/O,,,Uniden
+\x97,151,O,,TL/O + L/O,,,Uniden
+\x98,152,A,┐,AM,1,2,Uniden
+\x99,153,A,┘,AM,2,2,Uniden
+\x9a,154,M,,FM,,,Uniden
+\x9b,155,F,┐,FM,1,2,Uniden
+\x9c,156,F,┘,FM,2,2,Uniden
+\xa1,161,PRI,┐,PRI,1,2,Uniden
+\xa2,162,PRI,┘,PRI,2,2,Uniden
+\xa6,166,P1,,Reception Power Bar 20%,,,Uniden
+\xa7,167,P2,,Reception Power Bar 40%,,,Uniden
+\xa8,168,P3,┐,Reception Power Bar 60%,1,2,Uniden
+\xa9,169,P3,┘,Reception Power Bar 60%,2,2,Uniden
+\xaa,170,P4,┐,Reception Power Bar 80%,1,2,Uniden
+\xab,171,P4,┘,Reception Power Bar 80%,2,2,Uniden
+\xac,172,P5,┐,Reception Power Bar 100%,1,2,Uniden
+\xad,173,P5,┘,Reception Power Bar 100%,2,2,Uniden
+\xb1,177,[,,Slider Empty Left,,,Uniden
+\xb2,178,],,Slider Empty Right,,,Uniden
+\xb5,181,CC DND,┐,Close Call DND,1,2,Uniden
+\xb6,182,CC DND,┘,Close Call DND,2,2,Uniden
+\xcd,205,BNK:,┐,BNK:,1,3,Uniden
+\xce,206,BNK:,│,BNK:,2,3,Uniden
+\xcf,207,BNK:,┘,BNK:,3,3,Uniden
+\xd8,216,P,,PRI (DND),,,Uniden
+\xd9,217,R,,PRI (DND),,,Uniden
+\xda,218,I,,PRI (DND),,,Uniden
