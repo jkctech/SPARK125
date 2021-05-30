@@ -1,4 +1,5 @@
 from uniden import userial
+import sys
 
 def char_range(c1, c2):
 	for c in range(ord(c1), ord(c2) + 1):
@@ -10,8 +11,13 @@ skip = [
 	"PRG"
 ]
 
+# Check args
+if len(sys.argv) != 2:
+	print("Please provide a serial port to connect to.")
+	exit(1)
+
 # Get serial connection & Open
-ser = userial.get()
+ser = userial.get(sys.argv[1])
 ser.open()
 
 # Generate all possible commands

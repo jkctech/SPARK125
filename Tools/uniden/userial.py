@@ -2,10 +2,10 @@ import serial
 import time
 
 # Get serial object
-def get():
+def get(port):
 	ser = serial.Serial()
 	ser.baudrate = 9600
-	ser.port = "COM19"
+	ser.port = port
 	return ser
 
 # Command wrapper
