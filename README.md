@@ -21,6 +21,7 @@ Documents and reference sheets I found / created that are useful for development
 
 #### Tools
 Small (Python) tools that can dump data and interact with the scanner.
+Including an **Interactive terminal**.
 <a href="Tools/"><h5>> Read More</h5></a>
 
 <hr>
