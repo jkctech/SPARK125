@@ -34,6 +34,7 @@ namespace SPARK125
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btn_serial_auto = new System.Windows.Forms.Button();
 			this.btn_serial_refresh = new System.Windows.Forms.Button();
+			this.tb_debug = new System.Windows.Forms.RichTextBox();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -80,20 +81,29 @@ namespace SPARK125
 			// 
 			// btn_serial_refresh
 			// 
-			this.btn_serial_refresh.Font = new System.Drawing.Font("Wingdings 3", 9.75F, System.Drawing.FontStyle.Bold);
+			this.btn_serial_refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
 			this.btn_serial_refresh.Location = new System.Drawing.Point(114, 16);
 			this.btn_serial_refresh.Name = "btn_serial_refresh";
 			this.btn_serial_refresh.Size = new System.Drawing.Size(23, 23);
 			this.btn_serial_refresh.TabIndex = 3;
-			this.btn_serial_refresh.Text = "Q";
+			this.btn_serial_refresh.Text = "R";
 			this.btn_serial_refresh.UseVisualStyleBackColor = true;
 			this.btn_serial_refresh.Click += new System.EventHandler(this.btn_serial_refresh_Click);
+			// 
+			// tb_debug
+			// 
+			this.tb_debug.Location = new System.Drawing.Point(447, 212);
+			this.tb_debug.Name = "tb_debug";
+			this.tb_debug.Size = new System.Drawing.Size(227, 166);
+			this.tb_debug.TabIndex = 3;
+			this.tb_debug.Text = "";
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(686, 390);
+			this.Controls.Add(this.tb_debug);
 			this.Controls.Add(this.groupBox1);
 			this.Name = "Form1";
 			this.Text = "SPARK125";
@@ -109,6 +119,7 @@ namespace SPARK125
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_serial_refresh;
         private System.Windows.Forms.Button btn_serial_auto;
-    }
+		private System.Windows.Forms.RichTextBox tb_debug;
+	}
 }
 

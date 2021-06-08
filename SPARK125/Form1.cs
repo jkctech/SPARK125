@@ -8,15 +8,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Threading;
 
 namespace SPARK125
 {
 	public partial class Form1 : Form
 	{
+		LCD lcd;
+
 		public Form1()
 		{
 			InitializeComponent();
 			UpdateSerialPorts();
+
+			lcd = new LCD(
+				Controls,
+				new Point(200, 10),
+				15,
+				30,
+				15
+			);
+
+			lcd.ParseSTS("STS,011000,                ,,BANK9           ,,         SCAN  ⸮,,                ,,                ,,⸮⸮⸮ 2       0   ,,0,1,0,0,,,0,,0");
+			
+			
 		}
 
 		public void UpdateSerialPorts()
@@ -60,7 +75,15 @@ namespace SPARK125
 				return;
 			}
 
-			MessageBox.Show(string.Format("Found {0} on firmware {1}", scanner.Model, scanner.Firmware));
+			// MessageBox.Show(string.Format("Found {0} on firmware {1}", scanner.Model, scanner.Firmware));
+
+			/*
+			foreach (int i in scanner.CommandAsBytes("STS"))
+			{
+				tb_debug.AppendText(string.Format("{0}: ({1})\n", i.ToString(), (char)i));
+			}*/
+
+
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.Diagnostics;
 
 namespace SPARK125
 {
@@ -42,16 +43,45 @@ namespace SPARK125
             return Port != null && Port.IsOpen;
         }
 
-        public string Command(string command)
-        {
+        private void Write(string command)
+		{
             if (!IsReady())
                 throw new System.IO.IOException("No active connection.");
 
             // Write command
             Port.Write(command + '\r');
+        }
+
+        public string Command(string command)
+        {
+            Write(command);
 
 			// Read result
 			return Port.ReadTo("\r");
+		}
+
+        public List<int> CommandAsBytes(string command)
+		{
+            // Write
+            Write(command);
+
+            // Read
+            List<int> result = new List<int>();
+
+            int b = 0;
+
+            while (b != '\r')
+			{
+                int rb = Port.ReadByte();
+                if (rb != -1)
+                {
+                    b = rb;
+                    if (b != '\r')
+                        result.Add(rb);
+                }
+			}
+
+            return result;
 		}
 	}
 }
