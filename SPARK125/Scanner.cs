@@ -60,19 +60,27 @@ namespace SPARK125
 			return Port.ReadTo("\r");
 		}
 
+        /// <summary>
+        /// Get result of a command in a list of bytes
+        /// </summary>
+        /// <param name="command">Commandstring</param>
+        /// <returns>List of Proprietary + ASCII bytes</returns>
         public List<int> CommandAsBytes(string command)
 		{
-            // Write
+            // Write command
             Write(command);
 
-            // Read
+            // Read result
             List<int> result = new List<int>();
 
             int b = 0;
 
+            // While not at the terminating byte...
             while (b != '\r')
 			{
                 int rb = Port.ReadByte();
+               
+                // Only save if not -1 (No char available)
                 if (rb != -1)
                 {
                     b = rb;

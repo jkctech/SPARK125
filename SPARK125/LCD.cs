@@ -13,18 +13,22 @@ namespace SPARK125
 	{
 		// Private
 		private Label[,] _grid = new Label[_rows, _cols];
-		private GroupBox _box = new GroupBox();
+		private PictureBox _box;
 		
+		private bool _debug = false;
+		private bool _backlight;
+
 		private int _startx;
 		private int _starty;
 		private int _width;
 		private int _height;
 		private int _fontsize;
-		private int _paddingx = 5;
-		private int _paddingy = 10;
+		
+		private const int _paddingx = 5;
+		private const int _paddingy = 10;
 
 		private const int _cols = 16;
-		private const int _rows = 4;
+		private const int _rows = 5;
 		
 		private Color _color_back_dim = SystemColors.Control;
 		private Color _color_back_light = Color.Orange;
@@ -34,28 +38,42 @@ namespace SPARK125
 		private Color _color_fore_invert_light = Color.Orange;
 		private Color _color_fore_invert_dim = SystemColors.Control;
 
+		/// <summary>
+		/// Array indexes for specific areas in the STS buffer
+		/// </summary>
 		private enum BufferElement
 		{
 			Command=0,
 			LayoutMode,
-			R0,
-			R0M,
-			R1,
-			R1M,
-			R2,
-			R2M,
-			R3,
-			R3M
+			R0, R0M,
+			R1, R1M,
+			R2, R2M,
+			R3, R3M,
+			R4, R4M,
+			Unknown1,
+			Unknown2,
+			Unknown3,
+			Unknown4,
+			Unknown5,
+			Unknown6,
+			ReceptionPower,
+			Unknown7,
+			Backlight
 		}
 
-		// Public
-		public bool Backlight = true;
-
-		public LCD(Control.ControlCollection control, Point start, int width, int height, int fontsize)
+		/// <summary>
+		/// Create and place new virtual LCD in form
+		/// </summary>
+		/// <param name="control">Form control object</param>
+		/// <param name="location">Where to place the virtual LCD</param>
+		/// <param name="width">Width</param>
+		/// <param name="height">Height</param>
+		/// <param name="fontsize">Font size (In pixels)</param>
+		public LCD(Control.ControlCollection control, Point location, int width, int height, int fontsize)
 		{
 			// Copy over values to class instance
-			_startx = start.X;
-			_starty = start.Y;
+			_startx = location.X;
+			_starty = location.Y;
 			_width = width;
 			_height = height;
 			_fontsize = fontsize;
@@ -63,58 +81,95 @@ namespace SPARK125
 			// Default font
 			Font font = new Font(FontFamily.GenericMonospace, _fontsize);
 
-			// Put in groupbox
-			_box.Location = start;
-			_box.SetBounds(start.X, start.Y, _cols * _width + _paddingx * 2, _rows * _height + _paddingy * 2);
-			control.Add(_box);
-
-			// Loop over total grid (16 x 4)
+			// Loop over total grid (
 			for (int y = 0; y < _rows; y++)
 			{
 				for (int x = 0; x < _cols; x++)
 				{
 					Label l = new Label();
 					
+					// Build label properties
 					l.Location = new Point(
-						_paddingx + (x * _width),
-						_paddingy + (y * _height)
+						_startx + _paddingx + (x * _width),
+						_starty + _paddingy + (y * _height)
 					);
 					
 					l.Width = width;
 					l.Height = height;
 
-					// l.BackColor = _color_back_dim;
-					l.BackColor = Color.Transparent;
+					l.BackColor = _color_back_dim;
 					l.ForeColor = _color_fore_normal;
 
 					l.Font = font;
-					l.TextAlign = ContentAlignment.MiddleCenter;
+					l.TextAlign = ContentAlignment.BottomCenter;
 
+					// Link label to grid and add to control
 					_grid[y, x] = l;
-					_box.Controls.Add(l);
+					control.Add(l);
 				}
 			}
+
+			// LCD Background picturebox
+			_box = new PictureBox();
+			_box.Location = location;
+			_box.Width = _cols * _width + _paddingx * 2;
+			_box.Height = _rows * _height + _paddingy * 2;
+			_box.BorderStyle = BorderStyle.Fixed3D;
+			_box.SendToBack();
+			control.Add(_box);
 		}
 
-		public void Update()
+		/// <summary>
+		/// Get / Set backlight status
+		/// </summary>
+		public bool Backlight
 		{
-			if (Backlight)
-				_box.BackColor = _color_back_light;
-			else
-				_box.BackColor = _color_back_dim;
-			return;
-			for (int y = 0; y < _rows; y++)
+			get
 			{
-				for (int x = 0; x < _cols; x++)
+				return _backlight;
+			}
+			set
+			{
+				if (_backlight != value)
 				{
-					if (Backlight)
-						_grid[y, x].BackColor = _color_back_light;
+					// Set pictureboc backlight
+					if (value)
+						_box.BackColor = _color_back_light;
 					else
-						_grid[y, x].BackColor = _color_back_dim;
+						_box.BackColor = _color_back_dim;
+
+					// Per label mode background
+					for (int y = 0; y < _rows; y++)
+					{
+						for (int x = 0; x < _cols; x++)
+						{
+							// Debugging mode
+							if (_debug)
+							{
+								_grid[y, x].ForeColor = Color.White;
+								if (y % 2 == 0)
+									_grid[y, x].BackColor = x % 2 == 0 ? Color.Magenta : Color.Black;
+								else
+									_grid[y, x].BackColor = x % 2 == 0 ? Color.Black : Color.Magenta;
+							}
+
+							// Normal backlight update
+							else
+							{
+								_grid[y, x].BackColor = value ? _color_back_light : _color_back_dim;
+							}
+						}
+					}
+
+					_backlight = value;
 				}
 			}
 		}
 
+		/// <summary>
+		/// Parse STS string directly to LCD
+		/// </summary>
+		/// <param name="raw">Raw STS bytestring</param>
 		public void ParseSTS(string raw)
 		{
 			string[] parts = raw.Split(',');
@@ -123,22 +178,36 @@ namespace SPARK125
 			PutString(parts[(int)BufferElement.R1], 1);
 			PutString(parts[(int)BufferElement.R2], 2);
 			PutString(parts[(int)BufferElement.R3], 3);
+			PutString(parts[(int)BufferElement.R4], 4);
+
+			Backlight = parts[(int)BufferElement.Backlight] == "3";
 		}
 
+		/// <summary>
+		/// Put string onto LCD on given cursor location
+		/// Overflowing characters will be truncated.
+		/// </summary>
+		/// <param name="str">String to place</param>
+		/// <param name="row">Row</param>
+		/// <param name="col">Col</param>
+		/// <param name="filltoend">Fill line to end with spaces if needed</param>
 		public void PutString(string str, int row, int col = 0, bool filltoend = true)
 		{
-			int x = 0;
+			int x;
 			
+			// Copy over string char by char
 			for (x = 0; col + x < str.Length; x++)
 				_grid[row, col + x].Text = str[x].ToString();
 
-			while (col + x < _cols)
+			// Fill to end with empty spaces
+			if (filltoend)
 			{
-				_grid[row, col + x].Text = "";
-				x++;
+				while (col + x < _cols)
+				{
+					_grid[row, col + x].Text = "";
+					x++;
+				}
 			}
-
-			Update();
 		}
 	}
 }
