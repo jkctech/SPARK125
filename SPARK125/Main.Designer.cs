@@ -1,7 +1,7 @@
 ﻿
 namespace SPARK125
 {
-    partial class Form1
+    partial class Spark125
     {
         /// <summary>
         ///  Required designer variable.
@@ -117,6 +117,7 @@ namespace SPARK125
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.tb_debug);
 			this.Controls.Add(this.groupBox1);
+			this.MaximizeBox = false;
 			this.Name = "Form1";
 			this.Text = "SPARK125";
 			this.groupBox1.ResumeLayout(false);

@@ -46,17 +46,20 @@ namespace SPARK125
         private void Write(string command)
 		{
             if (!IsReady())
-                throw new System.IO.IOException("No active connection.");
+                throw new System.IO.IOException(Strings.Error_NoActiveConnection);
 
             // Write command
             Port.Write(command + '\r');
         }
 
+        /// <summary>
+        /// Get result of a command as a string.
+        /// </summary>
+        /// <param name="command">Commandstring</param>
+        /// <returns>String cast from raw bytes</returns>
         public string Command(string command)
         {
             Write(command);
-
-			// Read result
 			return Port.ReadTo("\r");
 		}
 

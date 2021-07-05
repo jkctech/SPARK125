@@ -81,21 +81,21 @@ namespace SPARK125
 			// Default font
 			Font font = new Font(FontFamily.GenericMonospace, _fontsize);
 
-			// Loop over total grid (
+			// Loop over total grid
 			for (int y = 0; y < _rows; y++)
 			{
 				for (int x = 0; x < _cols; x++)
 				{
 					Label l = new Label();
-					
+
 					// Build label properties
 					l.Location = new Point(
 						_startx + _paddingx + (x * _width),
 						_starty + _paddingy + (y * _height)
 					);
-					
-					l.Width = width;
-					l.Height = height;
+
+					l.Width = _width;
+					l.Height = _height;
 
 					l.BackColor = _color_back_dim;
 					l.ForeColor = _color_fore_normal;
@@ -117,6 +117,16 @@ namespace SPARK125
 			_box.BorderStyle = BorderStyle.Fixed3D;
 			_box.SendToBack();
 			control.Add(_box);
+		}
+
+		public Size GetSize()
+		{
+			return new Size(_box.Width, _box.Height);
+		}
+
+		public Point GetLocation()
+		{
+			return new Point(_startx, _starty);
 		}
 
 		/// <summary>
