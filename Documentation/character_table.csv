@@ -116,7 +116,8 @@
 \xac,172,P5,┐,Reception Power Bar 100%,1,2,Uniden
 \xad,173,P5,┘,Reception Power Bar 100%,2,2,Uniden
 \xb1,177,[,,Slider Empty Left,,,Uniden
-\xb2,178,],,Slider Empty Right,,,Uniden
+\xb2,178,_,,Slider Empty Center,,,Uniden
+\xb3,179,],,Slider Empty Right,,,Uniden
 \xb5,181,CC DND,┐,Close Call DND,1,2,Uniden
 \xb6,182,CC DND,┘,Close Call DND,2,2,Uniden
 \xcd,205,BNK:,┐,BNK:,1,3,Uniden
