@@ -12,8 +12,6 @@ using System.Diagnostics;
 
 namespace SPARK125
 {
-
-
 	public partial class VirtualDisplay : Form
 	{
 		LCD lcd;
@@ -30,6 +28,7 @@ namespace SPARK125
 		private int _screenonly;
 		private Size _lcdSize;
 		private Size _size;
+		private Scanner _scanner;
 
 		private string[,,] _btnmap_ubc125xlt = {
 			{
@@ -64,11 +63,14 @@ namespace SPARK125
 			}
 		};
 
-		public VirtualDisplay()
+		public VirtualDisplay(Scanner scanner)
 		{
 			InitializeComponent();
 			int ybase;
 			int ybase_grid;
+
+			// Attach scanner
+			_scanner = scanner;
 
 			// Initialize LCD
 			lcd = new LCD(
@@ -80,7 +82,7 @@ namespace SPARK125
 			);
 
 			// Parse testing STS string
-			lcd.ParseSTS("STS,011000, HOLD,,V67 SAR/KNRM/KWC,,CH028   156.3750,, FM,,BNK:1,,0,1,0,0,,,0,,0");
+			lcd.ParseSTS(this, "STS,011000, HOLD,,V67 SAR/KNRM/KWC,,CH028   156.3750,, FM,,BNK:1,,0,1,0,0,,,0,,0");
 
 			// Screen syncer
 			screensync = new BackgroundWorker();
@@ -183,11 +185,10 @@ namespace SPARK125
 
 		private void ScreenSync_DoWork(object sender, DoWorkEventArgs e)
 		{
-			return;
 			while (true)
 			{
-				lcd.Backlight = !lcd.Backlight;
-				Thread.Sleep(500);
+				lcd.ParseSTS(this, _scanner.Command("STS"));
+				Thread.Sleep(100);
 			}
 		}
 

@@ -49,6 +49,7 @@
     <Compile Include="DualButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

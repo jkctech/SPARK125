@@ -28,7 +28,7 @@ namespace SPARK125
 		private const int _paddingy = 10;
 
 		private const int _cols = 16;
-		private const int _rows = 5;
+		private const int _rows = 6;
 		
 		private Color _color_back_dim = SystemColors.Control;
 		private Color _color_back_light = Color.Orange;
@@ -50,14 +50,15 @@ namespace SPARK125
 			R2, R2M,
 			R3, R3M,
 			R4, R4M,
-			Unknown1,
-			Unknown2,
+			R5, R5M,
 			Unknown3,
 			Unknown4,
 			Unknown5,
 			Unknown6,
 			ReceptionPower,
 			Unknown7,
+			Unknown8,
+			Unknown9,
 			Backlight
 		}
 
@@ -180,17 +181,23 @@ namespace SPARK125
 		/// Parse STS string directly to LCD
 		/// </summary>
 		/// <param name="raw">Raw STS bytestring</param>
-		public void ParseSTS(string raw)
+		public void ParseSTS(Form form, string raw)
 		{
-			string[] parts = raw.Split(',');
+			try
+			{
+				string[] parts = raw.Split(',');
 
-			PutString(parts[(int)BufferElement.R0], 0);
-			PutString(parts[(int)BufferElement.R1], 1);
-			PutString(parts[(int)BufferElement.R2], 2);
-			PutString(parts[(int)BufferElement.R3], 3);
-			PutString(parts[(int)BufferElement.R4], 4);
+				PutString(parts[(int)BufferElement.R0], 0);
+				PutString(parts[(int)BufferElement.R1], 1);
+				PutString(parts[(int)BufferElement.R2], 2);
+				PutString(parts[(int)BufferElement.R3], 3);
+				PutString(parts[(int)BufferElement.R4], 4);
+				PutString(parts[(int)BufferElement.R5], 5);
 
-			Backlight = parts[(int)BufferElement.Backlight] == "3";
+				Backlight = parts[(int)BufferElement.Backlight] == "3";
+			}
+			catch (Exception) { }
+			Debug.WriteLine(raw);
 		}
 
 		/// <summary>
@@ -204,18 +211,42 @@ namespace SPARK125
 		public void PutString(string str, int row, int col = 0, bool filltoend = true)
 		{
 			int x;
-			
-			// Copy over string char by char
-			for (x = 0; col + x < str.Length; x++)
-				_grid[row, col + x].Text = str[x].ToString();
+			Label field;
 
-			// Fill to end with empty spaces
-			if (filltoend)
+			if (_grid[0, 0].InvokeRequired)
 			{
-				while (col + x < _cols)
+				// Copy over string char by char
+				for (x = 0; col + x < str.Length; x++)
 				{
-					_grid[row, col + x].Text = "";
-					x++;
+					field = _grid[row, col + x];
+					field.AutoInvoke(() => field.Text = str[x].ToString());
+				}
+
+				// Fill to end with empty spaces
+				if (filltoend)
+				{
+					while (col + x < _cols)
+					{
+						field = _grid[row, col + x];
+						field.AutoInvoke(() => field.Text = "");
+						x++;
+					}
+				}
+			}
+			else
+			{
+				// Copy over string char by char
+				for (x = 0; col + x < str.Length; x++)
+					_grid[row, col + x].Text = str[x].ToString();
+
+				// Fill to end with empty spaces
+				if (filltoend)
+				{
+					while (col + x < _cols)
+					{
+						_grid[row, col + x].Text = "";
+						x++;
+					}
 				}
 			}
 		}

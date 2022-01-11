@@ -14,6 +14,8 @@ namespace SPARK125
 {
 	public partial class Spark125 : Form
 	{
+		Scanner scanner;
+
 		public Spark125()
 		{
 			InitializeComponent();
@@ -42,8 +44,6 @@ namespace SPARK125
 		{
 			string portname = combo_serial_ports.SelectedItem.ToString();
 
-			Scanner scanner;
-
 			try
 			{
 				scanner = new Scanner(portname);
@@ -60,20 +60,12 @@ namespace SPARK125
 				return;
 			}
 
-			// MessageBox.Show(string.Format("Found {0} on firmware {1}", scanner.Model, scanner.Firmware));
-
-			/*
-			foreach (int i in scanner.CommandAsBytes("STS"))
-			{
-				tb_debug.AppendText(string.Format("{0}: ({1})\n", i.ToString(), (char)i));
-			}*/
-
-
+			//MessageBox.Show(string.Format("Found {0} on firmware {1}", scanner.Model, scanner.Firmware));
 		}
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			VirtualDisplay vc = new VirtualDisplay();
+			VirtualDisplay vc = new VirtualDisplay(scanner);
 			vc.Show();
 		}
 	}

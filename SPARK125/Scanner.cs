@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace SPARK125
 {
-    class Scanner
+    public class Scanner
     {
         public string PortName;
         public SerialPort Port;
