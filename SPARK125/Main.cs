@@ -78,7 +78,7 @@ namespace SPARK125
 				}
 				catch (System.IO.IOException ex)
 				{
-					logger.Log(string.Format(Strings.Error_SerialConnection, portname, ex.Message), Logger.Type.ERROR);
+					logger.Log(string.Format(Properties.Resources.Error_SerialConnection, portname, ex.Message), Logger.Type.ERROR);
 					return;
 				}
 				catch (TimeoutException)

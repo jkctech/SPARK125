@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Error_Connection" xml:space="preserve">
+    <value>Connection Error</value>
+  </data>
+  <data name="Error_NoActiveConnection" xml:space="preserve">
+    <value>No active connection</value>
+  </data>
+  <data name="Error_SerialConnection" xml:space="preserve">
+    <value>Could not open serial connection to {0}: {1}</value>
+  </data>
+  <data name="Serial_Auto" xml:space="preserve">
+    <value>Auto Detect</value>
+  </data>
+  <data name="Serial_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Serial_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>SPARK125 | By: JKCTech</value>
   </data>

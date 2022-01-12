@@ -61,6 +61,60 @@ namespace SPARK125.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection Error.
+        /// </summary>
+        internal static string Error_Connection {
+            get {
+                return ResourceManager.GetString("Error_Connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No active connection.
+        /// </summary>
+        internal static string Error_NoActiveConnection {
+            get {
+                return ResourceManager.GetString("Error_NoActiveConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not open serial connection to {0}: {1}.
+        /// </summary>
+        internal static string Error_SerialConnection {
+            get {
+                return ResourceManager.GetString("Error_SerialConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto Detect.
+        /// </summary>
+        internal static string Serial_Auto {
+            get {
+                return ResourceManager.GetString("Serial_Auto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connect.
+        /// </summary>
+        internal static string Serial_Connect {
+            get {
+                return ResourceManager.GetString("Serial_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        internal static string Serial_Disconnect {
+            get {
+                return ResourceManager.GetString("Serial_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SPARK125 | By: JKCTech.
         /// </summary>
         internal static string Title {
