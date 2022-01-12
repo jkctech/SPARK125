@@ -79,10 +79,20 @@ namespace SPARK125
         /// </summary>
         /// <param name="command">Commandstring</param>
         /// <returns>String cast from raw bytes</returns>
-        public string Command(string command)
+        public string Command(string command, int attempt = 10)
         {
-            Write(command);
-			return Port.ReadTo("\r");
+			try
+			{
+                Write(command);
+                return Port.ReadTo("\r");
+            }
+            catch (Exception)
+			{
+                if (attempt > 0)
+                    return Command(command, attempt - 1);
+                else
+                    throw;
+			}
 		}
 
         /// <summary>

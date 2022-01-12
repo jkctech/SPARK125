@@ -32,34 +32,34 @@ namespace SPARK125
 
 		private string[,,] _btnmap_ubc125xlt = {
 			{
-				{"Hold",	"Close Call"},
-				{"1",		"Pri"},
-				{"2",		""},
-				{"3",		"Step"}
+				{"Hold",	"Close Call",	"H"},
+				{"1",		"Pri",			"1"},
+				{"2",		"",				"2"},
+				{"3",		"Step",			"3"}
 			},
 			{
-				{"Scan",	""},
-				{"4",		"<"},
-				{"5",		""},
-				{"6",		">"}
+				{"Scan",	"",				"S"},
+				{"4",		"<",			"4"},
+				{"5",		"",				"5"},
+				{"6",		">",			"6"}
 			},
 			{
-				{"Srch",	"Svc"},
-				{"7",		"Beep"},
-				{"8",		""},
-				{"9",		"Mod"}
+				{"Srch",	"Svc",			"R"},
+				{"7",		"Beep",			"7"},
+				{"8",		"",				"8"},
+				{"9",		"Mod",			"9"}
 			},
 			{
-				{"Lock-Out","Lock"},
-				{"Enter",	"Program"},
-				{"0",		""},
-				{"•",		"Clear"}
+				{"Lock-Out","Lock",			"L"},
+				{"Enter",	"Program",		"E"},
+				{"0",		"",				"0"},
+				{"•",		"Clear",		"."}
 			},
 			{
-				{"Power",	"Backlight"},
-				{"←",       "(5x)"},
-				{"→",       "(5x)"},
-				{"Func",	""}
+				{"Power",	"Backlight",	"P"},
+				{"←",       "(5x)",			"<"},
+				{"→",       "(5x)",			">"},
+				{"Func",	"",				"F"}
 			}
 		};
 
@@ -152,7 +152,11 @@ namespace SPARK125
 				for (int x = 0; x < _grid_cols; x++)
 				{
 					DualButton b = new DualButton(_btnmap_ubc125xlt[y,x,0], _btnmap_ubc125xlt[y, x, 1]);
-					
+
+					// Add click event
+					b.Click += B_Click;
+					b.Key = _btnmap_ubc125xlt[y, x, 2];
+
 					SolidBrush tb = new SolidBrush(Color.Black);
 					SolidBrush bb = new SolidBrush(Color.Red);
 					
@@ -187,6 +191,12 @@ namespace SPARK125
 			}
 		}
 
+		private void B_Click(object sender, EventArgs e)
+		{
+			DualButton btn = sender as DualButton;
+			_scanner.Command(string.Format("KEY,{0},P", btn.Key));
+		}
+
 		private void VirtualDisplay_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			screensync.CancelAsync();
@@ -202,25 +212,27 @@ namespace SPARK125
 			{
 				// Read screen and save buffer for other triggers
 				string[] sts = lcd.ParseSTS(_scanner.CommandAsBytes("STS"));
+				Thread.Sleep(50);
 
-				// Check Volume trigger
+				//foreach (string str in sts) {
+				//	Debug.Write(str + ",");
+				//}
+				//Debug.WriteLine("");
+
+				// Check Volume and Squelch triggers
 				try
 				{
-					if (sts[(int)LCD.BufferElement.R4].Substring(0, 6) == "VOLUME")
+					string l = sts[(int)LCD.BufferElement.R4];
+					
+					if (l.Length >= 6 && l.Substring(0, 6) == "VOLUME")
 						tb_volume.AutoInvoke(() => tb_volume.Value = int.Parse(_scanner.Command("VOL").Substring(4)));
-				} catch (Exception) { }
-
-				// Check Squelch trigger
-				try
-				{
-					if (sts[(int)LCD.BufferElement.R4].Substring(0, 7) == "SQUELCH")
+					if (l.Length >= 7 && l.Substring(0, 7) == "SQUELCH")
 						tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
-				}
-				catch (Exception) { }
+				} catch (Exception) { }
 
 				if (screensync.CancellationPending)
 					return;
-				Thread.Sleep(150);
+				Thread.Sleep(100);
 			}
 		}
 

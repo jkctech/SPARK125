@@ -15,6 +15,7 @@ namespace SPARK125
 		public SolidBrush TopBrush { get; set; }
 		public SolidBrush BottomBrush { get; set; }
 		public int LineSpacing { get; set; }
+		public string Key { get; set; }
 		
 		private StringFormat _sf;
 

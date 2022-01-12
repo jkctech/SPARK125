@@ -233,7 +233,12 @@ namespace SPARK125
 		/// <param name="raw">Raw STS bytestring</param>
 		private string ParseUnidenChars(List<int> raw)
 		{
+			if (raw.Count < 8)
+				return "";
+
 			string result = "";
+			bool small = (char)raw[4] == '1' && (char)raw[5] == '1' && (char)raw[6] == '1' && (char)raw[7] == '1';
+			uint comma = 0;
 
 			foreach (int b in raw)
 			{
@@ -241,8 +246,17 @@ namespace SPARK125
 					result += UnidenDict[b];
 				else
 					result += (char)b;
+				
+				if (small && (char)b == ',')
+				{
+					comma++;
+					if (comma == 10)
+					{
+						result += ",,,,";
+						small = false;
+					}
+				}
 			}
-
 			return result;
 		}
 
