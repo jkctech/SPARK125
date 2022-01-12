@@ -57,8 +57,8 @@ namespace SPARK125
 			},
 			{
 				{"Power",	"Backlight",	"P"},
-				{"←",       "(5x)",			"<"},
-				{"→",       "(5x)",			">"},
+				{"←",       "",				"<"},
+				{"→",       "",				">"},
 				{"Func",	"",				"F"}
 			}
 		};
@@ -146,6 +146,23 @@ namespace SPARK125
 
 			_btnwidth = (_gridwidth - ((_grid_cols - 1) * _btnspacing)) / _grid_cols;
 			_btnheight = (_gridheight - ((_grid_rows - 1) * _btnspacing)) / _grid_rows;
+
+			// Add top button first
+			{
+				DualButton b = new DualButton("Click", "");
+				b.Click += B_Click;
+				b.Key = "^";
+				SolidBrush tb = new SolidBrush(Color.Black);
+				SolidBrush bb = new SolidBrush(Color.Red);
+				b.Size = new Size(_btnwidth, (int)(_btnheight * 0.75)); // CHANGED
+				b.Left = _padding + 3 * (_btnwidth + _btnspacing);
+				b.Top = ybase_grid - _btnspacing - (int)(_btnheight * 0.75);
+				b.BackColor = Color.DarkGray;
+				tb.Color = Color.White;
+				b.TopBrush = tb;
+				b.BottomBrush = bb;
+				Controls.Add(b);
+			}
 
 			for (int y = 0; y < _grid_rows; y++)
 			{
