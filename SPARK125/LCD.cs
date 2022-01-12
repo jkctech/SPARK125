@@ -51,13 +51,13 @@ namespace SPARK125
 			R3, R3M,
 			R4, R4M,
 			R5, R5M,
-			Unknown3,
-			Unknown4,
+			IsReceiving,	// Guess
+			IsNotreceiving,	// GUess
 			Unknown5,
 			Unknown6,
-			ReceptionPower,
 			Unknown7,
 			Unknown8,
+			ReceptionPower,
 			Unknown9,
 			Backlight
 		}
@@ -273,7 +273,7 @@ namespace SPARK125
 				PutString(parts[(int)BufferElement.R4], parts[(int)BufferElement.R4M], 4);
 				PutString(parts[(int)BufferElement.R5], parts[(int)BufferElement.R5M], 5);
 
-				Backlight = parts[(int)BufferElement.Backlight] == "3";
+				Backlight = parts[(int)BufferElement.Backlight] != "0";
 			}
 			catch (Exception) { }
 			//Debug.WriteLine(raw);

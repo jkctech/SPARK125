@@ -1,9 +1,9 @@
 # SPARK125
 
-For Uniden Bearcat **BC125AT** / **UBC125XLT** / **UBC126AT** / **AE125H** scanners.
+Alternative managing software for Uniden Bearcat **BC125AT** / **UBC125XLT** / **UBC126AT** / **AE125H** scanners.
 
 ### About
-**SPARK125** is a collection of **tools**, (developer) **documentation** and **software** to be used with the above mentioned **Uniden Bearcat** scanners.
+**SPARK125** is a project to be used with the above mentioned **Uniden Bearcat** scanners, this in replacement of the paid **ARC125** software by Uniden.
 
 <hr>
 

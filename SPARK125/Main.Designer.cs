@@ -37,6 +37,7 @@ namespace SPARK125
 			this.btn_serial_refresh = new System.Windows.Forms.Button();
 			this.tb_debug = new System.Windows.Forms.RichTextBox();
 			this.btn_VirtualControl = new System.Windows.Forms.Button();
+			this.btn_clear = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -96,6 +97,8 @@ namespace SPARK125
 			// 
 			// tb_debug
 			// 
+			this.tb_debug.BackColor = System.Drawing.Color.Black;
+			this.tb_debug.ForeColor = System.Drawing.Color.White;
 			this.tb_debug.Location = new System.Drawing.Point(10, 119);
 			this.tb_debug.Name = "tb_debug";
 			this.tb_debug.Size = new System.Drawing.Size(416, 166);
@@ -113,11 +116,22 @@ namespace SPARK125
 			this.btn_VirtualControl.UseVisualStyleBackColor = true;
 			this.btn_VirtualControl.Click += new System.EventHandler(this.btn_VirtualControl_Click);
 			// 
+			// btn_clear
+			// 
+			this.btn_clear.Location = new System.Drawing.Point(351, 90);
+			this.btn_clear.Name = "btn_clear";
+			this.btn_clear.Size = new System.Drawing.Size(75, 23);
+			this.btn_clear.TabIndex = 5;
+			this.btn_clear.Text = "Clear";
+			this.btn_clear.UseVisualStyleBackColor = true;
+			this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
+			// 
 			// Spark125
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(438, 296);
+			this.Controls.Add(this.btn_clear);
 			this.Controls.Add(this.btn_VirtualControl);
 			this.Controls.Add(this.tb_debug);
 			this.Controls.Add(this.groupBox1);
@@ -137,8 +151,9 @@ namespace SPARK125
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btn_serial_refresh;
         private System.Windows.Forms.Button btn_serial_auto;
-		private System.Windows.Forms.RichTextBox tb_debug;
 		private System.Windows.Forms.Button btn_VirtualControl;
+		private System.Windows.Forms.RichTextBox tb_debug;
+		private System.Windows.Forms.Button btn_clear;
 	}
 }
 

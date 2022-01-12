@@ -16,10 +16,13 @@ namespace SPARK125
 	{
 		Scanner scanner;
 		VirtualDisplay vc;
+		public Logger logger;
 
 		public Spark125()
 		{
 			InitializeComponent();
+
+			logger = new Logger(tb_debug);
 
 			// Update serial ports
 			UpdateSerialPorts();
@@ -58,6 +61,7 @@ namespace SPARK125
 				Text = Properties.Resources.Title;
 				btn_serial_toggle.Text = "Connect";
 				scanner.Close();
+				logger.Log("Disconnected from scanner.", Logger.Type.INFO);
 			}
 
 			// Connect
@@ -67,19 +71,19 @@ namespace SPARK125
 
 				try
 				{
+					logger.Log(string.Format("Connecting to port {0}...", portname), Logger.Type.INFO);
 					scanner = new Scanner(portname);
-
-					Text = string.Format("{2} - {0} {1}", scanner.Model, scanner.Firmware, Properties.Resources.Title);
+					Text = string.Format("{0} - {1}", Properties.Resources.Title, scanner.Model);
+					logger.Log(string.Format("Connected to {0} [{2}] on port {1}.", scanner.Model, portname, scanner.Firmware), Logger.Type.SUCCESS);
 				}
 				catch (System.IO.IOException ex)
 				{
-					MessageBox.Show(
-						string.Format(Strings.Error_SerialConnection, portname, ex.Message),
-						Strings.Error_Connection,
-						MessageBoxButtons.OK,
-						MessageBoxIcon.Warning
-					);
-
+					logger.Log(string.Format(Strings.Error_SerialConnection, portname, ex.Message), Logger.Type.ERROR);
+					return;
+				}
+				catch (TimeoutException)
+				{
+					logger.Log(string.Format("Port {0} does not seem to be a compatible scanner!", portname), Logger.Type.ERROR);
 					return;
 				}
 
@@ -93,7 +97,7 @@ namespace SPARK125
 		{
 			if (vc == null)
 			{
-				vc = new VirtualDisplay(scanner);
+				vc = new VirtualDisplay(scanner, this);
 				vc.Show();
 			}
 			vc.FormClosed += Vc_FormClosed;
@@ -107,6 +111,11 @@ namespace SPARK125
 		private void btn_serial_auto_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void btn_clear_Click(object sender, EventArgs e)
+		{
+			tb_debug.Text = "";
 		}
 	}
 }

@@ -16,6 +16,7 @@ namespace SPARK125
 	{
 		LCD lcd;
 		BackgroundWorker screensync;
+		Spark125 main;
 
 		private const int _padding = 10;
 		private const int _spacing = 5;
@@ -63,11 +64,13 @@ namespace SPARK125
 			}
 		};
 
-		public VirtualDisplay(Scanner scanner)
+		public VirtualDisplay(Scanner scanner, Spark125 mainWindow)
 		{
 			InitializeComponent();
 
 			FormClosing += VirtualDisplay_FormClosing;
+
+			main = mainWindow;
 
 			int ybase;
 			int ybase_grid;
@@ -221,6 +224,8 @@ namespace SPARK125
 
 		private void ScreenSync_DoWork(object sender, DoWorkEventArgs e)
 		{
+			bool inReception = false;
+
 			// Read in volume & Squelch
 			tb_volume.AutoInvoke(() => tb_volume.Value = int.Parse(_scanner.Command("VOL").Substring(4)));
 			tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
@@ -236,19 +241,37 @@ namespace SPARK125
 				//}
 				//Debug.WriteLine("");
 
-				// Check Volume and Squelch triggers
+				// Check triggers
 				try
 				{
-					string l = sts[(int)LCD.BufferElement.R4];
-					
-					if (l.Length >= 6 && l.Substring(0, 6) == "VOLUME")
+					// Volume & Squelch
+					string vs = sts[(int)LCD.BufferElement.R4];
+					if (vs.Length >= 6 && vs.Substring(0, 6) == "VOLUME")
 						tb_volume.AutoInvoke(() => tb_volume.Value = int.Parse(_scanner.Command("VOL").Substring(4)));
-					if (l.Length >= 7 && l.Substring(0, 7) == "SQUELCH")
+					if (vs.Length >= 7 && vs.Substring(0, 7) == "SQUELCH")
 						tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
+
+					// Reception detector
+					int pow = int.Parse(sts[(int)LCD.BufferElement.ReceptionPower]);
+					if (pow == 0)
+						inReception = false;
+					if (!inReception && pow > 0)
+					{
+						inReception = true;
+						string name = sts[(int)LCD.BufferElement.R1].Trim();
+						string freq = sts[(int)LCD.BufferElement.R2].Substring(7);
+						freq = freq.Remove(freq.Length - 1);
+						string chan = sts[(int)LCD.BufferElement.R2].Split(' ')[0].Substring(2);
+						string mod = sts[(int)LCD.BufferElement.R3].Substring(1, 2);
+
+						main.logger.Log(string.Format("{1} Mhz [{3}] \"{0}\"  Channel {2} ", name, freq, chan, mod), Logger.Type.RECEPTION);
+					}
+
 				} catch (Exception) { }
 
 				if (screensync.CancellationPending)
 					return;
+				
 				Thread.Sleep(100);
 			}
 		}
