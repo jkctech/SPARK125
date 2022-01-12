@@ -82,7 +82,7 @@ namespace SPARK125
 			);
 
 			// Parse testing STS string
-			lcd.ParseSTS(this, "STS,011000, HOLD,,V67 SAR/KNRM/KWC,,CH028   156.3750,, FM,,BNK:1,,0,1,0,0,,,0,,0");
+			//lcd.ParseSTS("STS,011000, HOLD,,V67 SAR/KNRM/KWC,,CH028   156.3750,, FM,,BNK:1,,0,1,0,0,,,0,,0");
 
 			// Screen syncer
 			screensync = new BackgroundWorker();
@@ -126,8 +126,8 @@ namespace SPARK125
 			ybase += tb_squelch.Height + _spacing;
 
 			// Slider labels X
-			lbl_squelch.Left = tb_volume.Left + tb_volume.Width / 2 - lbl_volume.Width / 2 - 5;
-			lbl_volume.Left = tb_squelch.Left + tb_squelch.Width / 2 - lbl_squelch.Width / 2 - 5;
+			lbl_volume.Left = tb_volume.Left + tb_volume.Width / 2 - lbl_volume.Width / 2 - 5;
+			lbl_squelch.Left = tb_squelch.Left + tb_squelch.Width / 2 - lbl_squelch.Width / 2 - 5;
 
 			// Lock & save size
 			Height = ybase + Height - ClientSize.Height;
@@ -185,9 +185,30 @@ namespace SPARK125
 
 		private void ScreenSync_DoWork(object sender, DoWorkEventArgs e)
 		{
+			// Read in volume & Squelch
+			tb_volume.AutoInvoke(() => tb_volume.Value = int.Parse(_scanner.Command("VOL").Substring(4)));
+			tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
+
 			while (true)
 			{
-				lcd.ParseSTS(this, _scanner.Command("STS"));
+				// Read screen and save buffer for other triggers
+				string[] sts = lcd.ParseSTS(_scanner.CommandAsBytes("STS"));
+
+				// Check Volume trigger
+				try
+				{
+					if (sts[(int)LCD.BufferElement.R4].Substring(0, 6) == "VOLUME")
+						tb_volume.AutoInvoke(() => tb_volume.Value = int.Parse(_scanner.Command("VOL").Substring(4)));
+				} catch (Exception) { }
+
+				// Check Squelch trigger
+				try
+				{
+					if (sts[(int)LCD.BufferElement.R4].Substring(0, 7) == "SQUELCH")
+						tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
+				}
+				catch (Exception) { }
+
 				Thread.Sleep(100);
 			}
 		}
@@ -207,6 +228,16 @@ namespace SPARK125
 			Size = s;
 			MinimumSize = s;
 			MaximumSize = s;
+		}
+
+		private void tb_volume_ValueChanged(object sender, EventArgs e)
+		{
+			_scanner.Command("VOL," + tb_volume.Value.ToString());
+		}
+
+		private void tb_squelch_ValueChanged(object sender, EventArgs e)
+		{
+			_scanner.Command("SQL," + tb_squelch.Value.ToString());
 		}
 	}
 }

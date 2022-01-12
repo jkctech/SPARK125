@@ -58,6 +58,7 @@ namespace SPARK125
 			this.tb_volume.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.tb_volume.Size = new System.Drawing.Size(45, 274);
 			this.tb_volume.TabIndex = 1;
+			this.tb_volume.ValueChanged += new System.EventHandler(this.tb_volume_ValueChanged);
 			// 
 			// lbl_volume
 			// 
@@ -85,6 +86,7 @@ namespace SPARK125
 			this.tb_squelch.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.tb_squelch.Size = new System.Drawing.Size(45, 274);
 			this.tb_squelch.TabIndex = 3;
+			this.tb_squelch.ValueChanged += new System.EventHandler(this.tb_squelch_ValueChanged);
 			// 
 			// cb_screenonly
 			// 

@@ -41,7 +41,7 @@ namespace SPARK125
 		/// <summary>
 		/// Array indexes for specific areas in the STS buffer
 		/// </summary>
-		private enum BufferElement
+		public enum BufferElement
 		{
 			Command=0,
 			LayoutMode,
@@ -61,6 +61,56 @@ namespace SPARK125
 			Unknown9,
 			Backlight
 		}
+
+		public Dictionary<int, string> UnidenDict = new Dictionary<int, string>()
+		{
+			{128, "█"},
+			{129, "↑"},
+			{130, "↓"},
+			{133, "╳"},
+			{134, ""},
+			{135, "C"},
+			{136, "C"},
+			{139, "F"},
+			{140, "P"},
+			{141, "H"},
+			{142, "O"},
+			{143, "L"},
+			{144, "D"},
+			{145, "+"},
+			{146, "C"},
+			{147, "T"},
+			{148, "L"},
+			{149, "L"},
+			{150, "/"},
+			{151, "O"},
+			{152, ""},
+			{153, "A"},
+			{154, "M"},
+			{155, ""},
+			{156, "F"},
+			{161, "P"},
+			{162, "‼"},
+			{166, "-"},
+			{167, "+"},
+			{168, "-"},
+			{169, "+"},
+			{170, "+"},
+			{171, "+"},
+			{172, "X"},
+			{173, "X"},
+			{177, "["},
+			{178, "_"},
+			{179, "]"},
+			{181, "C"},
+			{182, "C"},
+			{205, "B"},
+			{206, "N"},
+			{207, "K"},
+			{216, "P"},
+			{217, "R"},
+			{218, "I"}
+		};
 
 		/// <summary>
 		/// Create and place new virtual LCD in form
@@ -178,15 +228,30 @@ namespace SPARK125
 		}
 
 		/// <summary>
-		/// Parse STS string directly to LCD
+		/// Parse Uniden characters to normal equivalent.
 		/// </summary>
 		/// <param name="raw">Raw STS bytestring</param>
-		public void ParseSTS(Form form, string raw)
+		private string ParseUnidenChars(List<int> raw)
 		{
+			string result = "";
+
+			foreach (int b in raw)
+			{
+				if (UnidenDict.ContainsKey(b))
+					result += UnidenDict[b];
+				else
+					result += (char)b;
+			}
+
+			return result;
+		}
+
+		public string[] ParseSTS(string raw)
+		{
+			string[] parts = raw.Split(',');
+
 			try
 			{
-				string[] parts = raw.Split(',');
-
 				PutString(parts[(int)BufferElement.R0], 0);
 				PutString(parts[(int)BufferElement.R1], 1);
 				PutString(parts[(int)BufferElement.R2], 2);
@@ -198,6 +263,12 @@ namespace SPARK125
 			}
 			catch (Exception) { }
 			Debug.WriteLine(raw);
+			return parts;
+		}
+
+		public string[] ParseSTS(List<int> raw)
+		{
+			return ParseSTS(ParseUnidenChars(raw));
 		}
 
 		/// <summary>
