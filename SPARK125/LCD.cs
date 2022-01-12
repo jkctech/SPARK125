@@ -266,12 +266,12 @@ namespace SPARK125
 
 			try
 			{
-				PutString(parts[(int)BufferElement.R0], 0);
-				PutString(parts[(int)BufferElement.R1], 1);
-				PutString(parts[(int)BufferElement.R2], 2);
-				PutString(parts[(int)BufferElement.R3], 3);
-				PutString(parts[(int)BufferElement.R4], 4);
-				PutString(parts[(int)BufferElement.R5], 5);
+				PutString(parts[(int)BufferElement.R0], parts[(int)BufferElement.R0M], 0);
+				PutString(parts[(int)BufferElement.R1], parts[(int)BufferElement.R1M], 1);
+				PutString(parts[(int)BufferElement.R2], parts[(int)BufferElement.R2M], 2);
+				PutString(parts[(int)BufferElement.R3], parts[(int)BufferElement.R3M], 3);
+				PutString(parts[(int)BufferElement.R4], parts[(int)BufferElement.R4M], 4);
+				PutString(parts[(int)BufferElement.R5], parts[(int)BufferElement.R5M], 5);
 
 				Backlight = parts[(int)BufferElement.Backlight] == "3";
 			}
@@ -293,10 +293,12 @@ namespace SPARK125
 		/// <param name="row">Row</param>
 		/// <param name="col">Col</param>
 		/// <param name="filltoend">Fill line to end with spaces if needed</param>
-		public void PutString(string str, int row, int col = 0, bool filltoend = true)
+		public void PutString(string str, string mask, int row, int col = 0, bool filltoend = true)
 		{
 			int x;
 			Label field;
+
+			mask = mask.PadRight(16);
 
 			if (_grid[0, 0].InvokeRequired)
 			{
@@ -304,7 +306,20 @@ namespace SPARK125
 				for (x = 0; col + x < str.Length; x++)
 				{
 					field = _grid[row, col + x];
-					field.AutoInvoke(() => field.Text = str[x].ToString());
+					field.AutoInvoke(() => {
+						field.Text = str[x].ToString();
+
+						if (mask[col + x] == '*')
+						{
+							field.BackColor = _color_back_invert;
+							field.ForeColor = Backlight ? _color_fore_invert_light : _color_fore_invert_dim;
+						}
+						else
+						{
+							field.BackColor = Backlight ? _color_back_light : _color_back_dim;
+							field.ForeColor = _color_fore_normal;
+						}
+					});
 				}
 
 				// Fill to end with empty spaces
