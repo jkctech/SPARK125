@@ -29,13 +29,14 @@ namespace SPARK125
         /// </summary>
         private void InitializeComponent()
         {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Spark125));
 			this.btn_serial_toggle = new System.Windows.Forms.Button();
 			this.combo_serial_ports = new System.Windows.Forms.ComboBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btn_serial_auto = new System.Windows.Forms.Button();
 			this.btn_serial_refresh = new System.Windows.Forms.Button();
 			this.tb_debug = new System.Windows.Forms.RichTextBox();
-			this.button1 = new System.Windows.Forms.Button();
+			this.btn_VirtualControl = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -73,12 +74,14 @@ namespace SPARK125
 			// 
 			// btn_serial_auto
 			// 
+			this.btn_serial_auto.Enabled = false;
 			this.btn_serial_auto.Location = new System.Drawing.Point(5, 73);
 			this.btn_serial_auto.Name = "btn_serial_auto";
 			this.btn_serial_auto.Size = new System.Drawing.Size(132, 23);
 			this.btn_serial_auto.TabIndex = 4;
 			this.btn_serial_auto.Text = "Auto Detect";
 			this.btn_serial_auto.UseVisualStyleBackColor = true;
+			this.btn_serial_auto.Click += new System.EventHandler(this.btn_serial_auto_Click);
 			// 
 			// btn_serial_refresh
 			// 
@@ -93,32 +96,34 @@ namespace SPARK125
 			// 
 			// tb_debug
 			// 
-			this.tb_debug.Location = new System.Drawing.Point(447, 212);
+			this.tb_debug.Location = new System.Drawing.Point(10, 119);
 			this.tb_debug.Name = "tb_debug";
-			this.tb_debug.Size = new System.Drawing.Size(227, 166);
+			this.tb_debug.Size = new System.Drawing.Size(416, 166);
 			this.tb_debug.TabIndex = 3;
 			this.tb_debug.Text = "";
 			// 
-			// button1
+			// btn_VirtualControl
 			// 
-			this.button1.Location = new System.Drawing.Point(69, 197);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 41);
-			this.button1.TabIndex = 4;
-			this.button1.Text = "TEST";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.btn_VirtualControl.Enabled = false;
+			this.btn_VirtualControl.Location = new System.Drawing.Point(158, 12);
+			this.btn_VirtualControl.Name = "btn_VirtualControl";
+			this.btn_VirtualControl.Size = new System.Drawing.Size(132, 23);
+			this.btn_VirtualControl.TabIndex = 4;
+			this.btn_VirtualControl.Text = "Virtual Control";
+			this.btn_VirtualControl.UseVisualStyleBackColor = true;
+			this.btn_VirtualControl.Click += new System.EventHandler(this.btn_VirtualControl_Click);
 			// 
-			// Form1
+			// Spark125
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(686, 390);
-			this.Controls.Add(this.button1);
+			this.ClientSize = new System.Drawing.Size(438, 296);
+			this.Controls.Add(this.btn_VirtualControl);
 			this.Controls.Add(this.tb_debug);
 			this.Controls.Add(this.groupBox1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.Name = "Form1";
+			this.Name = "Spark125";
 			this.Text = "SPARK125";
 			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -133,7 +138,7 @@ namespace SPARK125
         private System.Windows.Forms.Button btn_serial_refresh;
         private System.Windows.Forms.Button btn_serial_auto;
 		private System.Windows.Forms.RichTextBox tb_debug;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button btn_VirtualControl;
 	}
 }
 

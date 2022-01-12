@@ -29,6 +29,7 @@ namespace SPARK125
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VirtualDisplay));
 			this.cb_always_on_top = new System.Windows.Forms.CheckBox();
 			this.tb_volume = new System.Windows.Forms.TrackBar();
 			this.lbl_volume = new System.Windows.Forms.Label();
@@ -110,8 +111,9 @@ namespace SPARK125
 			this.Controls.Add(this.lbl_volume);
 			this.Controls.Add(this.tb_volume);
 			this.Controls.Add(this.cb_always_on_top);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "VirtualDisplay";
-			this.Text = "VirtualControl";
+			this.Text = "SPARK125 - Virtual Control";
 			((System.ComponentModel.ISupportInitialize)(this.tb_volume)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.tb_squelch)).EndInit();
 			this.ResumeLayout(false);

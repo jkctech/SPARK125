@@ -66,6 +66,9 @@ namespace SPARK125
 		public VirtualDisplay(Scanner scanner)
 		{
 			InitializeComponent();
+
+			FormClosing += VirtualDisplay_FormClosing;
+
 			int ybase;
 			int ybase_grid;
 
@@ -86,6 +89,7 @@ namespace SPARK125
 
 			// Screen syncer
 			screensync = new BackgroundWorker();
+			screensync.WorkerSupportsCancellation = true;
 			screensync.DoWork += ScreenSync_DoWork;
 			screensync.RunWorkerAsync();
 
@@ -183,6 +187,11 @@ namespace SPARK125
 			}
 		}
 
+		private void VirtualDisplay_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			screensync.CancelAsync();
+		}
+
 		private void ScreenSync_DoWork(object sender, DoWorkEventArgs e)
 		{
 			// Read in volume & Squelch
@@ -209,7 +218,9 @@ namespace SPARK125
 				}
 				catch (Exception) { }
 
-				Thread.Sleep(100);
+				if (screensync.CancellationPending)
+					return;
+				Thread.Sleep(150);
 			}
 		}
 

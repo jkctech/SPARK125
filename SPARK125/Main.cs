@@ -15,11 +15,19 @@ namespace SPARK125
 	public partial class Spark125 : Form
 	{
 		Scanner scanner;
+		VirtualDisplay vc;
 
 		public Spark125()
 		{
 			InitializeComponent();
+
+			// Update serial ports
 			UpdateSerialPorts();
+
+			// Lock sizing
+			MaximumSize = Size;
+			MinimumSize = Size;
+			Text = Properties.Resources.Title;
 		}
 
 		/// <summary>
@@ -42,31 +50,63 @@ namespace SPARK125
 
 		private void btn_serial_toggle_Click(object sender, EventArgs e)
 		{
-			string portname = combo_serial_ports.SelectedItem.ToString();
-
-			try
+			// Disconnect
+			if (scanner != null && scanner.IsReady())
 			{
-				scanner = new Scanner(portname);
-			}
-			catch(System.IO.IOException ex)
-			{
-				MessageBox.Show(
-					string.Format(Strings.Error_SerialConnection, portname, ex.Message),
-					Strings.Error_Connection,
-					MessageBoxButtons.OK,
-					MessageBoxIcon.Warning
-				);
-
-				return;
+				if (vc != null)
+					vc.Close();
+				Text = Properties.Resources.Title;
+				btn_serial_toggle.Text = "Connect";
+				scanner.Close();
 			}
 
-			//MessageBox.Show(string.Format("Found {0} on firmware {1}", scanner.Model, scanner.Firmware));
+			// Connect
+			else
+			{
+				string portname = combo_serial_ports.SelectedItem.ToString();
+
+				try
+				{
+					scanner = new Scanner(portname);
+
+					Text = string.Format("{2} - {0} {1}", scanner.Model, scanner.Firmware, Properties.Resources.Title);
+				}
+				catch (System.IO.IOException ex)
+				{
+					MessageBox.Show(
+						string.Format(Strings.Error_SerialConnection, portname, ex.Message),
+						Strings.Error_Connection,
+						MessageBoxButtons.OK,
+						MessageBoxIcon.Warning
+					);
+
+					return;
+				}
+
+				btn_serial_toggle.Text = "Disconnect";
+			}
+
+			btn_VirtualControl.Enabled = scanner.IsReady();
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void btn_VirtualControl_Click(object sender, EventArgs e)
 		{
-			VirtualDisplay vc = new VirtualDisplay(scanner);
-			vc.Show();
+			if (vc == null)
+			{
+				vc = new VirtualDisplay(scanner);
+				vc.Show();
+			}
+			vc.FormClosed += Vc_FormClosed;
+		}
+
+		private void Vc_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			vc = null;
+		}
+
+		private void btn_serial_auto_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

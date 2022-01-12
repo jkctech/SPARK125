@@ -262,7 +262,7 @@ namespace SPARK125
 				Backlight = parts[(int)BufferElement.Backlight] == "3";
 			}
 			catch (Exception) { }
-			Debug.WriteLine(raw);
+			//Debug.WriteLine(raw);
 			return parts;
 		}
 

@@ -22,23 +22,42 @@ namespace SPARK125
             PortName = portName;
             Port = new SerialPort(PortName, 9600);
             Port.ReadTimeout = 250;
+			Port.ErrorReceived += Port_ErrorReceived;
 
-            // Attempt to open the serial port
-            try
-            {
-                Port.Open();
-            }
-            catch (Exception ex)
-            {
-                throw new System.IO.IOException(ex.Message);
-            }
+            _openPort();
 
             // See if compatible scanner
             Model = Command("MDL").Substring(4);
             Firmware = Command("VER").Substring(4);
         }
 
-        public bool IsReady()
+        private void _openPort()
+		{
+            // Attempt to open the serial port
+            try
+            {
+                if (Port.IsOpen)
+                    Port.Close();
+                Port.Open();
+            }
+            catch (Exception ex)
+            {
+                throw new System.IO.IOException(ex.Message);
+            }
+        }
+
+        public void Close()
+		{
+            if (Port.IsOpen)
+                Port.Close();
+        }
+
+		private void Port_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+		{
+            _openPort();
+		}
+
+		public bool IsReady()
         {
             return Port != null && Port.IsOpen;
         }
@@ -46,7 +65,10 @@ namespace SPARK125
         private void Write(string command)
 		{
             if (!IsReady())
-                throw new System.IO.IOException(Strings.Error_NoActiveConnection);
+            {
+                Close();
+                return;
+            }
 
             // Write command
             Port.Write(command + '\r');
@@ -81,15 +103,22 @@ namespace SPARK125
             // While not at the terminating byte...
             while (b != '\r')
 			{
-                int rb = Port.ReadByte();
-               
-                // Only save if not -1 (No char available)
-                if (rb != -1)
-                {
-                    b = rb;
-                    if (b != '\r')
-                        result.Add(rb);
+                try
+				{
+                    int rb = Port.ReadByte();
+
+                    // Only save if not -1 (No char available)
+                    if (rb != -1)
+                    {
+                        b = rb;
+                        if (b != '\r')
+                            result.Add(rb);
+                    }
                 }
+                catch (Exception)
+				{
+                    return result;
+				}
 			}
 
             return result;
