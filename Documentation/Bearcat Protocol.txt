@@ -1,0 +1,69 @@
+All commands should be terminated by a Carriage Return character (\cr).
+Newline characters (\n) are not seen as 'end of line' triggers.
+
+Command sending syntax and examples
+	{CMD}[,ARG]
+	VOL						Getting the volume value
+	VOL,7					Setting the volume value
+	
+Command receiving syntax syntax and examples
+	{CMD},{RESPONSE}
+	MDL,UBC125XLT			Getting the scanner model
+	VER,Version 1.00.06		Getting the firmware version
+	CLR,NG					Receiving an error, CLR cannot be run when not in programming mode
+	ERR						Error, command doesn't exist
+
+Commands:
+	PRG			Enter program mode
+	EPG			Exit program mode
+	MDL			Get Model info
+	VER			Get firmware version
+	BLT		o	Get/Set Backlight
+	BSV		o	Get/Set Battery Info
+	CLR		o	Clear all Memory
+	KBP		o	Get/Set Beep Settings
+	PRI		o	Get/Set Priority Mode
+	SCG		o	Get/Set Group Quick Lockout
+	DCH		o	Delete Channel
+	CIN		o	Get/Set Channel Info
+	SCO		o	Get/Set Close Call Settings
+	GLF		o	Get Global Lockout Frequency
+					[SET]	GLF,01696500
+					[GET]	Call repeatedly untill GLF returns -1
+	ULF		o	Unlock Global
+	LOF		o	Lockout frequency
+	CLC		o	Get/Set Close Call Settings
+	SSG		o	Get/Set Service Search Settings
+	CSG		o	Get/Set Custom Search Group
+	CSP		o	Get/Set Custom Search Settings 
+	WXS		o	Get/Set Weather Settings
+	CNT		o	Get/Set LCD Contrast Settings
+	VOL			Get/Set Volume Level Settings
+	SQL			Get/Set Squelch Level Settings
+	STS			Get Screenbuffer
+	GLG			Echo current channel info
+	WIN			Something info?
+
+	KEY			Keypress	KEY,{Keycode},[(P)ress/(R)elease]
+		Keycode	Primary		Secondary
+		0		0			-
+		1		1			Priority Menu
+		2		2			-
+		3		3			Step Menu
+		4		4			Left
+		5		5			-
+		6		6			Right
+		7		7			Beep Menu
+		8		8			-
+		9		9			Modulation Switch
+		>		Increase	-
+		<		Decrease	-
+		^		Click		-
+		.		Dot			Clear
+		E		Enter		Progmem
+		F		Function	-
+		H		Hold		Close Call
+		L		Lockout		Keypad Lock
+		P		Power		Backlight Menu
+		R		Search		Service Search
+		S		Scan		-

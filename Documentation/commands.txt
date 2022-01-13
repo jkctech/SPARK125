@@ -1,0 +1,233 @@
+UNDOCUMENTED:
+	EWP >> 'EWP,ERR'
+	JNT >> 'JNT,ERR'
+	JPM >> 'JPM,ERR'
+	MNU >> 'MNU,ERR'
+	QSH >> 'QSH,ERR'
+
+	Programming Mode:
+		BPL >> 'BPL,NG'
+			Get/Set > Default is 1
+			Accepts all strings
+		
+		COM >> 'COM,NG'
+			Error in programming mode, requires unknown param(s)
+		
+		DBC >> 'DBC,NG'
+			Step Size for search?
+			
+			Bank 1:		500		625		1000		1250
+				500
+			Bank 2:		500		625		1000		1250
+				500
+			Bank 3:		500		625		1000		1250
+				500
+			Bank 4:		500		625		1000		1250
+				500
+			Bank 5:		833		1250
+				833
+			Bank 6:		500		625		1000		1250
+				625
+			Bank 7:		500		625		1000		1250
+				625
+			Bank 8:		500		625		1000		1250
+				1250
+			Bank 9:		500		625		1000		1250
+				625
+			Bank 0:		500		625		1000		1250
+				625
+			
+			Search banks:
+				Bank 1: DBC,1
+				Bank 2: DBC,2
+				Bank 3: DBC,3
+				Bank 4: DBC,4
+				Bank 5: DBC,8
+				Bank 6: DBC,9
+				Bank 7: DBC,11
+				Bank 8: DBC,19
+				Bank 9: DBC,20
+				Bank 0: DBC,24
+			
+			Service Banks:
+				Bank 5:	DBC,8
+
+			DUMP:
+				DBC,1,500,FM
+				DBC,2,500,FM
+				DBC,3,500,FM
+				DBC,4,500,FM
+				DBC,5,500,FM
+				DBC,6,500,FM
+				DBC,7,500,FM
+				DBC,8,833,AM
+				DBC,9,625,FM
+				DBC,10,625,FM
+				DBC,11,625,FM
+				DBC,12,625,FM
+				DBC,13,625,FM
+				DBC,14,625,FM
+				DBC,15,625,FM
+				DBC,16,625,FM
+				DBC,17,625,FM
+				DBC,18,625,FM
+				DBC,19,1250,AM
+				DBC,20,625,FM
+				DBC,21,625,FM
+				DBC,22,625,FM
+				DBC,23,625,FM
+				DBC,24,625,FM
+				DBC,25,1250,FM
+			
+			SET:
+				DBC,1,1250,FM >> DBC,OK
+
+		FWM >> 'FWM,NG'
+			Error in programming mode, requires unknown param(s)
+
+		MMM >> 'MMM,NG'
+			Error in programming mode, requires unknown param(s)
+		
+		MWR >> 'MWR,NG'
+			Error in programming mode, requires unknown param(s)
+		
+		
+
+		TST >> 'TST,NG'
+			Error in programming mode, requires unknown param(s)
+
+	MRD >> 'MRD,00000000,ERR'
+
+	WIN >> 'WIN,88,01560000'
+		Something info?
+		Wattage in?
+		Went from 86 to 102 with small PMR radio and 105 with big one
+
+RESOLVED:
+	POF >> 'POF,OK'
+		Power Off
+	
+	PWR >> 'PWR,201,00000000'
+		Reception power: PWR,{POWER},{FREQ}
+		Power ranged from 120 (Noise) - 675 (Close range PMR)
+	
+	BAV >> 'BAV,12'
+		Battery voltage?
+		Returned 12 without batteries, 536 with batteries.
+	
+	ESN >> 'ESN,XXXXXXXXXXXXXX,000,1'
+		Serial number?
+		Always returns the same, even with given params.
+	
+	SUM >> ''
+		Returns nothing
+
+	PDI >> 'PDI,NG'
+		* Requires Programming Mode
+		Returns nothing
+	
+	GLG >>
+		Scan / Hold: 'GLG,00000000,AUTO,,0,,,,0,1,,1,'
+		Scan / Hold: 'GLG,04460000,FM,,0,,,PMR CH01,0,1,,451,'
+		Search: 'GLG,00320300,FM,,0,,,,1,0,,,'
+
+		Syntax:
+			GLG,
+			{FREQUENCY},
+			{MODULATION} [AM-FM-AUTO],
+			,
+			0,
+			,
+			,
+			{ALPHA_TAG},
+			0,
+			1,
+			,
+			{CHANNEL_NUMBER},
+	
+	STS >> 'b'STS,011000, \x8d\x8e\x8f\x90 \x95\x96\x97       ,,BANK 1- 1       ,,CH001    0.0000 ,,                ,,     ,,\xcd\xce\xcf1            ,,0,1,0,0,,,0,,0'
+		Get screen buffer (As bytestring since it has proprietary character codes)
+		Rows are 16 characters wide.
+		Row markings are done by * characters, marking which character should be inverted on the LCD
+		
+		Syntax:
+			STS,
+			{SCREEN MODE?} [011000:Default - 1111:Menus],	
+			{ROW 0},{ROW 0 MARKINGS},
+			{ROW 1},{ROW 1 MARKINGS},
+			{ROW 2},{ROW 2 MARKINGS},
+			{ROW 3},{ROW 3 MARKINGS},
+			{ROW 4},{ROW 4 MARKINGS},
+			0,
+			1,
+			0,
+			0,
+			,
+			,
+			{RECEPTION POWER}, [0-5]
+			,
+			{BACKLIGHT?} [0: Off - 3:On]
+	
+	KEY >> 'KEY,ERR'
+		Virtually press a key on the scanner
+
+		Syntax:
+			KEY,{Keycode},[(P)ress/(R)elease/(H)old]
+
+		Valid Keys:
+			Char	Action		Secondary
+			0		0			-
+			1		1			Pri
+			2		2			-
+			3		3			Step
+			4		4			<
+			5		5			-
+			6		6			>
+			7		7			Beep
+			8		8			-
+			9		9			Mod
+			>		Increase	-
+			<		Decrease	-
+			.		Dot			Clr
+			E		Enter		Pgm
+			F		Function	-
+			H		Hold		Close Call
+			L		Lockout		Keypad Lock
+			P		Power		Backlight Menu
+			R		Search		Service Search
+			S		Scan		-
+			^		CLICK		-
+
+DOCUMENTED:
+
+	Error:
+		ULF >> 'ULF,ERR'
+	
+	Not in Menu:
+		BLT >> 'BLT,NG'
+		BSV >> 'BSV,NG'
+		CIN >> 'CIN,NG'
+		CLC >> 'CLC,NG'
+		CLR >> 'CLR,NG'
+		CNT >> 'CNT,NG'
+		CSG >> 'CSG,NG'
+		CSP >> 'CSP,NG'
+		DCH >> 'DCH,NG'
+		KBP >> 'KBP,NG'
+		LOF >> 'LOF,NG'
+		PRI >> 'PRI,NG'
+		SCG >> 'SCG,NG'
+		SCO >> 'SCO,NG'
+		SSG >> 'SSG,NG'
+		WXS >> 'WXS,NG'
+
+	OK:
+		EPG >> 'EPG,OK'
+		PRG >> 'PRG,OK'
+
+	Data:
+		GLF >> 'GLF,-1'
+		MDL >> 'MDL,UBC125XLT'
+		SQL >> 'SQL,2'
+		VER >> 'VER,Version 1.00.06'
+		VOL >> 'VOL,0'

@@ -1,14 +1,27 @@
-# SPARK125
+# SPARK125 <img src="Assets/Logo.png" width="40">
 
-Alternative managing software for Uniden Bearcat **BC125AT** / **UBC125XLT** / **UBC126AT** / **AE125H** scanners.
+**Free** alternative management software for Uniden Bearcat scanners.
 
-### About
-**SPARK125** is a project to be used with the above mentioned **Uniden Bearcat** scanners, this in replacement of the paid **ARC125** software by Uniden.
+<img src="Assets/virtualcontrol.png">
+
+**Compatible with:**
+- BC125AT *(Not Tested)*
+- UBC125XLT
+- UBC126AT *(Not Tested)*
+- AE125H *(Not Tested)*
+
+## Features
+- **Virtual Control** - Control your scanner over USB
+
+### Planned Features
+- **Terminal** - Directly interface with the scanner
+- **Bank Management** - Read / write to the scanner's memory banks
+- **Settings Management** - Manage your scanner's settings
 
 <hr>
 
-#### SPARK125
-**Free** alternative to **ARC125**
+#### Getting Started
+
 <a href="SPARK125/"><h5>> Read More</h5></a>
 
 <hr>
