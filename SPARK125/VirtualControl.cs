@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace SPARK125
 {
@@ -230,6 +231,8 @@ namespace SPARK125
 			tb_volume.AutoInvoke(() => tb_volume.Value = int.Parse(_scanner.Command("VOL").Substring(4)));
 			tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
 
+			Regex r_freq = new Regex(@"^\d+\.\d+$");
+
 			while (true)
 			{
 				// Read screen and save buffer for other triggers
@@ -252,19 +255,22 @@ namespace SPARK125
 						tb_squelch.AutoInvoke(() => tb_squelch.Value = int.Parse(_scanner.Command("SQL").Substring(4)));
 
 					// Reception detector
-					int pow = int.Parse(sts[(int)LCD.BufferElement.ReceptionPower]);
-					if (pow == 0)
+					//int pow = int.Parse(sts[(int)LCD.BufferElement.ReceptionPower]);
+					if (sts[(int)LCD.BufferElement.IsReceiving] == "0")
 						inReception = false;
-					if (!inReception && pow > 0)
+					if (!inReception && sts[(int)LCD.BufferElement.IsReceiving] == "1")
 					{
-						inReception = true;
 						string name = sts[(int)LCD.BufferElement.R1].Trim();
 						string freq = sts[(int)LCD.BufferElement.R2].Substring(7);
 						freq = freq.Remove(freq.Length - 1);
 						string chan = sts[(int)LCD.BufferElement.R2].Split(' ')[0].Substring(2);
 						string mod = sts[(int)LCD.BufferElement.R3].Substring(1, 2);
 
-						main.logger.Log(string.Format("{1} Mhz [{3}] \"{0}\"  Channel {2} ", name, freq, chan, mod), Logger.Type.RECEPTION);
+						if (r_freq.IsMatch(freq))
+						{
+							inReception = true;
+							main.logger.Log(string.Format("{1} Mhz [{3}] \"{0}\"  Channel {2} ", name, freq, chan, mod), Logger.Type.RECEPTION);
+						}
 					}
 
 				} catch (Exception) { }
