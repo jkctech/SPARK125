@@ -13,6 +13,7 @@ All tools include the `userial.py` file. Please change your desired **COM Port**
 |Name|File|Description|
 |-|-|-|
 |**Terminal**|terminal.py|Interactive terminal to your scanner|
+|Reception Logger|logger.py|Logs receptions to a file and to the terminal.|
 |Command Explorer|command_explorer.py|Fuzzer to find all commands|
 |Channel Dumper|dump_channels.py|Dumps all channels to text|
 |DBC Dumper|dump_dbc.py|Dumps all DBC banks|
