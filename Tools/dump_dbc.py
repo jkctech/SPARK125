@@ -1,5 +1,5 @@
 from uniden import userial
-from sys
+import sys
 
 # Check args
 if len(sys.argv) != 2:
