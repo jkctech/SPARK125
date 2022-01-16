@@ -101,7 +101,7 @@ namespace SPARK125
 			this.tb_debug.ForeColor = System.Drawing.Color.White;
 			this.tb_debug.Location = new System.Drawing.Point(10, 119);
 			this.tb_debug.Name = "tb_debug";
-			this.tb_debug.Size = new System.Drawing.Size(416, 166);
+			this.tb_debug.Size = new System.Drawing.Size(448, 225);
 			this.tb_debug.TabIndex = 3;
 			this.tb_debug.Text = "";
 			// 
@@ -118,7 +118,7 @@ namespace SPARK125
 			// 
 			// btn_clear
 			// 
-			this.btn_clear.Location = new System.Drawing.Point(351, 90);
+			this.btn_clear.Location = new System.Drawing.Point(383, 90);
 			this.btn_clear.Name = "btn_clear";
 			this.btn_clear.Size = new System.Drawing.Size(75, 23);
 			this.btn_clear.TabIndex = 5;
@@ -130,7 +130,7 @@ namespace SPARK125
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(438, 296);
+			this.ClientSize = new System.Drawing.Size(470, 356);
 			this.Controls.Add(this.btn_clear);
 			this.Controls.Add(this.btn_VirtualControl);
 			this.Controls.Add(this.tb_debug);
