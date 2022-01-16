@@ -1,5 +1,12 @@
 # SPARK125 <img src="Assets/Logo.png" width="40">
 
+### ⚠️ WORK IN PROGRESS
+```
+This project is still in active development.
+Some parts might not work well, or not at all.
+Please keep an eye on the **Releases** tab.
+```
+
 **Free** alternative management software for Uniden Bearcat scanners.
 
 <img src="Assets/virtualcontrol.png">
