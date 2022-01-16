@@ -82,7 +82,7 @@ dorecord = True
 
 if dorecord:
 	rec = Recorder(4, channels=1)
-	recdir = "recordings"
+	recdir = "logs"
 	Path(recdir).mkdir(parents=True, exist_ok=True)
 
 # Keep looping

@@ -4,7 +4,7 @@ import re
 
 from pathlib import Path
 
-base = "./recordings/"
+base = "./logs/"
 folders = []
 groups = {}
 
