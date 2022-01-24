@@ -2,88 +2,92 @@ import re
 import time
 import math
 import sys
-import pyaudio
-import wave
-import threading
+import argparse
 
 from pathlib import Path
 from datetime import datetime
 from uniden import userial
 
-class Recorder():
-	filename = ""
-	isrecording = False
-	frames = []
+# Argument parser
+parser = argparse.ArgumentParser(description='Uniden Toolkit Spark125')
 
-	device = 0
-	channels = 2
-	rate = 44100
-	sample_format = pyaudio.paInt16
-	chunk = 1024
+parser.add_argument('-p', '--port', help='Serial port to interface with the scanner.', required=True)
+parser.add_argument('-r', '--record', action='store_true', help='Record receptions using PyAudio.')
 
-	def __init__(self, deviceindex, channels = 2, rate = 44100, sample_format = pyaudio.paInt16, chunk = 1024):
-		self.device = deviceindex
-		self.channels = channels
-		self.rate = rate
-		self.sample_format = sample_format
-		self.chunk = chunk
+args = parser.parse_args()
 
-	def Start(self, filename):
-		self.p = pyaudio.PyAudio()
-		self.isrecording = True
-		self.filename = filename
-		
-		t = threading.Thread(target=self._record)
-		t.start()
+# Only import and define recording class if needed
+if args.record:
+	import pyaudio
+	import wave
+	import threading
 
-	def Stop(self):
-		self.isrecording = False
-		
-		wf = wave.open(self.filename, 'wb')
-		wf.setnchannels(self.channels)
-		wf.setsampwidth(self.p.get_sample_size(self.sample_format))
-		wf.setframerate(self.rate)
-		wf.writeframes(b''.join(self.frames))
-		wf.close()
+	rec = Recorder(4, channels=1)
+	recdir = "logs"
+	Path(recdir).mkdir(parents=True, exist_ok=True)
 
-		# self.p.terminate()
+	class Recorder():
+		filename = ""
+		isrecording = False
+		frames = []
 
-	def _record(self):
-		self.frames = []
+		device = 0
+		channels = 2
+		rate = 44100
+		sample_format = pyaudio.paInt16
+		chunk = 1024
 
-		self.stream = self.p.open(
-			format=self.sample_format,
-			channels=self.channels,
-			rate=self.rate,
-			input=True,
-			input_device_index=self.device,
-			frames_per_buffer=self.chunk
-		)
+		def __init__(self, deviceindex, channels = 2, rate = 44100, sample_format = pyaudio.paInt16, chunk = 1024):
+			self.device = deviceindex
+			self.channels = channels
+			self.rate = rate
+			self.sample_format = sample_format
+			self.chunk = chunk
 
-		while self.isrecording:
-			data = self.stream.read(self.chunk)
-			self.frames.append(data)
+		def Start(self, filename):
+			self.p = pyaudio.PyAudio()
+			self.isrecording = True
+			self.filename = filename
+			
+			t = threading.Thread(target=self._record)
+			t.start()
 
-# Check args
-if len(sys.argv) < 2:
-	print("Please provide a serial port to connect to.")
-	exit(1)
+		def Stop(self):
+			self.isrecording = False
+			
+			wf = wave.open(self.filename, 'wb')
+			wf.setnchannels(self.channels)
+			wf.setsampwidth(self.p.get_sample_size(self.sample_format))
+			wf.setframerate(self.rate)
+			wf.writeframes(b''.join(self.frames))
+			wf.close()
+
+			# self.p.terminate()
+
+		def _record(self):
+			self.frames = []
+
+			self.stream = self.p.open(
+				format=self.sample_format,
+				channels=self.channels,
+				rate=self.rate,
+				input=True,
+				input_device_index=self.device,
+				frames_per_buffer=self.chunk
+			)
+
+			while self.isrecording:
+				data = self.stream.read(self.chunk)
+				self.frames.append(data)
 
 # Get serial connection & Open
-ser = userial.get(sys.argv[1])
+ser = userial.get(args.port)
 ser.open()
 
 start = 0
 inreception = False
 
 logfile = open("log.log", "a", buffering=1)
-
-dorecord = True
-
-if dorecord:
-	rec = Recorder(4, channels=1)
-	recdir = "logs"
-	Path(recdir).mkdir(parents=True, exist_ok=True)
 
 # Keep looping
 while True:
@@ -95,7 +99,7 @@ while True:
 		# If "busy" == 0 and reception is going we close it
 		if buff[14] == "0" and inreception:
 			inreception = False
-			if dorecord:
+			if args.record:
 				rec.Stop()
 			stop = datetime.now().replace(microsecond=0)
 			string = " <{}>".format(stop - start)
@@ -123,7 +127,7 @@ while True:
 				f_stamp = "{}".format(start.strftime("%Y-%m-%d %H:%M:%S"))
 
 				# Start recording
-				if dorecord:
+				if args.record:
 					
 					name = alphatag
 					for c in "/\\|:*?\"<>":
