@@ -13,6 +13,8 @@ parser = argparse.ArgumentParser(description='Uniden Toolkit Spark125')
 
 parser.add_argument('-p', '--port', help='Serial port to interface with the scanner.', required=True)
 parser.add_argument('-r', '--record', action='store_true', help='Record receptions using PyAudio.')
+parser.add_argument('-d', '--device', type=int)
+parser.add_argument('-c', '--channels', type=int, default=1)
 
 args = parser.parse_args()
 
@@ -21,10 +23,6 @@ if args.record:
 	import pyaudio
 	import wave
 	import threading
-
-	rec = Recorder(4, channels=1)
-	recdir = "logs"
-	Path(recdir).mkdir(parents=True, exist_ok=True)
 
 	class Recorder():
 		filename = ""
@@ -79,6 +77,11 @@ if args.record:
 			while self.isrecording:
 				data = self.stream.read(self.chunk)
 				self.frames.append(data)
+	
+	# Init recorder
+	rec = Recorder(args.device, channels=args.channels)
+	recdir = "logs"
+	Path(recdir).mkdir(parents=True, exist_ok=True)
 
 # Get serial connection & Open
 ser = userial.get(args.port)
