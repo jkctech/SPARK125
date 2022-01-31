@@ -95,7 +95,7 @@ try:
 			inreception = False
 			if args.record:
 				rec.Stop()
-			stop = datetime.now().replace(microsecond=0)
+			stop = datetime.now()
 			string = " <{}>".format(stop - start)
 			print(string)
 			logfile.write(string + "\n")
@@ -109,7 +109,7 @@ try:
 			if re.match(r'^\d+\.\d+$', frequency):
 				# Mark as reception and start timer
 				inreception = True
-				start = datetime.now().replace(microsecond=0)
+				start = datetime.now()
 
 				# Strip information
 				alphatag = buff[4].strip()
@@ -118,7 +118,7 @@ try:
 				mode = "AM" if buff[8][1:].strip() == "\\x98\\x99\\x9a" else "FM"
 				power = int(buff[20])
 
-				f_stamp = "{}".format(start.strftime("%Y-%m-%d %H:%M:%S"))
+				f_stamp = "{}".format(start.strftime("%Y-%m-%d %H:%M:%S:{}".format(start.strftime("%f")[0:2])))
 
 				# Start recording
 				if args.record:
