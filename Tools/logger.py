@@ -50,7 +50,7 @@ if args.record:
 	class Recorder():
 		filename = ""
 		isrecording = False
-		buffersize = 20
+		buffersize = 4096
 
 		device = 0
 		channels = 2
