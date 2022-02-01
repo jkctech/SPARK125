@@ -22,7 +22,7 @@ for folder in folders:
 		
 		if os.path.isfile(path):
 			date = folder.replace(base, "")
-			tag = date + "/" + fname[22:-4]
+			tag = date + "/" + fname.split(']')[1][1:-4]
 			
 			if tag not in groups.keys():
 				groups[tag] = []

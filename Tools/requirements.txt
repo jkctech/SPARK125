@@ -1,1 +1,4 @@
 pyserial>=3.5
+sounddevice>=0.4.4
+SoundFile>=0.10.3.post1
+numpy>=1.22.1
