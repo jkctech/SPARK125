@@ -12,13 +12,28 @@ from uniden import userial
 # Argument parser
 parser = argparse.ArgumentParser(description='Uniden Toolkit Spark125')
 
-parser.add_argument('-l', '--list-devices', action='store_true', help='show list of audio devices and exit')
+# Args
+parser.add_argument('-l', '--list-devices', action='store_true', help='List all audio and serial ports.')
+
+# Save args for intermittent code
 args, remaining = parser.parse_known_args()
+
+# Device lister
 if args.list_devices:
+	print("=" * 10, " Sound Devices ", "=" * 10)
 	import sounddevice as sd
 	print(sd.query_devices())
+	print()
+
+	print("=" * 10, " Serial Devices ", "=" * 10)
+	import serial.tools.list_ports
+	ports = serial.tools.list_ports.comports()
+	for port, desc, hwid in sorted(ports):
+		print("{}: {} [{}]".format(port, desc, hwid))
+
 	parser.exit(0)
 
+# Args
 parser.add_argument('-p', '--port', help='Serial port to interface with the scanner.', required=True)
 parser.add_argument('-r', '--record', action='store_true', help='Record receptions using PyAudio.')
 parser.add_argument('-d', '--device', type=int)
