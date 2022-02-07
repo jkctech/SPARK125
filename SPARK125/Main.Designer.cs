@@ -38,6 +38,7 @@ namespace SPARK125
 			this.tb_debug = new System.Windows.Forms.RichTextBox();
 			this.btn_VirtualControl = new System.Windows.Forms.Button();
 			this.btn_clear = new System.Windows.Forms.Button();
+			this.btn_BankEditor = new System.Windows.Forms.Button();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -126,11 +127,22 @@ namespace SPARK125
 			this.btn_clear.UseVisualStyleBackColor = true;
 			this.btn_clear.Click += new System.EventHandler(this.btn_clear_Click);
 			// 
+			// btn_BankEditor
+			// 
+			this.btn_BankEditor.Location = new System.Drawing.Point(158, 41);
+			this.btn_BankEditor.Name = "btn_BankEditor";
+			this.btn_BankEditor.Size = new System.Drawing.Size(132, 23);
+			this.btn_BankEditor.TabIndex = 6;
+			this.btn_BankEditor.Text = "Bank Editor";
+			this.btn_BankEditor.UseVisualStyleBackColor = true;
+			this.btn_BankEditor.Click += new System.EventHandler(this.btn_BankEditor_Click);
+			// 
 			// Spark125
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(470, 356);
+			this.Controls.Add(this.btn_BankEditor);
 			this.Controls.Add(this.btn_clear);
 			this.Controls.Add(this.btn_VirtualControl);
 			this.Controls.Add(this.tb_debug);
@@ -154,6 +166,7 @@ namespace SPARK125
 		private System.Windows.Forms.Button btn_VirtualControl;
 		private System.Windows.Forms.RichTextBox tb_debug;
 		private System.Windows.Forms.Button btn_clear;
+		private System.Windows.Forms.Button btn_BankEditor;
 	}
 }
 

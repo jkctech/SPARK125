@@ -16,6 +16,7 @@ namespace SPARK125
 	{
 		Scanner scanner;
 		VirtualDisplay vc;
+		BankEditor be;
 		public Logger logger;
 
 		public Spark125()
@@ -110,12 +111,27 @@ namespace SPARK125
 
 		private void btn_serial_auto_Click(object sender, EventArgs e)
 		{
-
+			throw new NotImplementedException();
 		}
 
 		private void btn_clear_Click(object sender, EventArgs e)
 		{
 			tb_debug.Text = "";
+		}
+
+		private void btn_BankEditor_Click(object sender, EventArgs e)
+		{
+			if (be == null)
+			{
+				be = new BankEditor(this);
+				be.Show();
+			}
+			be.FormClosed += Be_FormClosed;
+		}
+
+		private void Be_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			be = null;
 		}
 	}
 }
