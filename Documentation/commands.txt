@@ -140,8 +140,8 @@ RESOLVED:
 			,
 			,
 			{ALPHA_TAG},
-			0,
-			1,
+			{RECEIVING} [0-1],
+			{NOT RECEIVING} [0-1],
 			,
 			{CHANNEL_NUMBER},
 	
