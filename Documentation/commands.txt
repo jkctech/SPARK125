@@ -149,15 +149,20 @@ RESOLVED:
 		Get screen buffer (As bytestring since it has proprietary character codes)
 		Rows are 16 characters wide.
 		Row markings are done by * characters, marking which character should be inverted on the LCD
+		Maximum amount of rows is 6
+		Screen mode contains a string of bits, the string's length depicts the amount of rows.
+			0: Normal height row
+			1: Double height row
 		
 		Syntax:
 			STS,
-			{SCREEN MODE?} [011000:Default - 1111:Menus],	
+			{SCREEN MODE} [011000:Default - 1111:Menus],	
 			{ROW 0},{ROW 0 MARKINGS},
 			{ROW 1},{ROW 1 MARKINGS},
 			{ROW 2},{ROW 2 MARKINGS},
 			{ROW 3},{ROW 3 MARKINGS},
 			{ROW 4},{ROW 4 MARKINGS},
+			{ROW 5},{ROW 5 MARKINGS},
 			0,
 			1,
 			0,
